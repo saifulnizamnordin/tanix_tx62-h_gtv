@@ -48,7 +48,7 @@ if file "$D/super.fex" | grep -q 'sparse image'; then simg2img "$D/super.fex" "$
 else cp "$D/super.fex" "$T/super.raw"; fi
 echo "super raw size: $(stat -c %s "$T/super.raw")"
 mkdir "$T/parts"
-python3 "$LPUNPACK" "$T/super.raw" "$T/parts" >/dev/null
+python3 -W ignore "$LPUNPACK" "$T/super.raw" "$T/parts" >/dev/null
 for p in "$T"/parts/*.img; do
     printf '  %-10s %6d MiB  fsck: %s\n' "$(basename "$p" .img)" $(( $(stat -c %s "$p") / 1048576 )) \
         "$(e2fsck -fn "$p" >/dev/null 2>&1 && echo clean || echo ERRORS)"
@@ -63,8 +63,8 @@ for k in ro.build.version.release ro.lineage.version ro.build.characteristics \
 done
 check "LineageOS 18.1 (Android 11)" test "$(prop "$S" /system/build.prop ro.build.version.release)" = 11
 check "TV GSI: Leanback/TV packages present" bash -c "debugfs -R 'ls -l /system/priv-app' '$S' 2>/dev/null | grep -qi -e tv -e leanback"
-check "tx6s first-boot script" exists "$S" /system/system/bin/tx6s_firstboot.sh
-check "tx6s first-boot init rc" exists "$S" /system/system/etc/init/tx6s_firstboot.rc
+check "tx6s first-boot script" exists "$S" /system/bin/tx6s_firstboot.sh
+check "tx6s first-boot init rc" exists "$S" /system/etc/init/tx6s_firstboot.rc
 echo
 
 echo "## vendor (Tanix)"

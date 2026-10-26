@@ -1,0 +1,7 @@
+# Allwinner IR remote support from the stock system partition, taken from
+# lucagoc's H313 build (same cupid BSP). The kernel sunxi-ir driver only emits
+# MSC_SCAN codes; multi_ir maps them via customer_ir_<address>.kl to a uinput
+# keyboard "sunxi-ir-uinput". The TX6S-H remote uses address 4040.
+upstream:layers/overlay/super/system/bin/multi_ir              system/bin/multi_ir
+upstream:layers/overlay/super/system/lib/libmultiirservice.so  system/lib/libmultiirservice.so
+upstream:layers/overlay/super/system/usr/keylayout             system/usr/keylayout

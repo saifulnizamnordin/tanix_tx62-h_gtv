@@ -13,9 +13,17 @@ setup wizard: OK.
 | GPU Mali-G31 | ✅ | EGL `Bifrost r20p0-01rel0` |
 | HW video decode | ✅ listed | `OMX.allwinner.video.decoder.{avc,hevc,vp9,mpeg2,mpeg4,vc1,…}` |
 | Display | ✅ | 1920x1080, density 320 |
-| IR remote | ✅ device | `sunxi-ir` input device |
+| IR remote | ❌ → fixed in next build | kernel `sunxi-ir` emits only `MSC_SCAN` (address `4040`); stock `multi_ir` daemon + `customer_ir_4040.kl` were in the old system partition → `tx6s-ir` layer |
 | USB keyboard | ✅ | SONiX / BESCO detected |
 | HDMI audio | ⏳ test | HAL exposes `AUDIO_DEVICE_OUT_HDMI`; route shows `SPEAKER` |
 | First-boot script | ✅ | `/data/.tx6s_firstboot_done` |
 | SELinux | Permissive | from stock kernel cmdline |
 | Video playback, 4K, HDMI-CEC, standby | ⏳ test | |
+
+### IR remote codes (address 0x4040, NEC)
+
+`MSC_SCAN 01404xx` = press, `00404xx` = release.
+
+| Button | Up | Down | Left | Right | OK | Back | Home | Menu | Vol+ | Vol− | Power |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Code | 0x0b | 0x0e | 0x10 | 0x11 | 0x0d | 0x42 | 0x1a | 0x45 | 0x18 | 0x17 | 0x4d |

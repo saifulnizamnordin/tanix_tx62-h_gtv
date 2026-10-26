@@ -31,7 +31,7 @@ bash rom/build.sh --variant vanilla_debug   # or --all
 
 A layer folder may contain `system/`, `vendor/`, `product/` file trees,
 `remove.list` (paths to delete), `selinux.list` (`<path> <context>`), and
-`props/<partition>.prop` (`key=value` merged into that partition's
+`imports.list` (`<source> <part>/<path>`, source `upstream:<repo path>` or layer-relative), `props/<partition>.prop` (`key=value` merged into that partition's
 `build.prop`, `@VERSION@` expanded). `upstream:<name>` reuses a layer from
 [lucagoc/H96Max-H313-lineageos](https://github.com/lucagoc/H96Max-H313-lineageos)
 at the commit pinned in `fetch.sh` (its `build.prop` files are ignored).

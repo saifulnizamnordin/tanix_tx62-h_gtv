@@ -65,6 +65,10 @@ check "LineageOS 18.1 (Android 11)" test "$(prop "$S" /system/build.prop ro.buil
 check "TV GSI: Leanback/TV packages present" bash -c "debugfs -R 'ls -l /system/priv-app' '$S' 2>/dev/null | grep -qi -e tv -e leanback"
 check "tx6s first-boot script" exists "$S" /system/bin/tx6s_firstboot.sh
 check "tx6s first-boot init rc" exists "$S" /system/etc/init/tx6s_firstboot.rc
+check "IR: multi_ir daemon + init rc" bash -c "debugfs -R 'stat /system/bin/multi_ir' '$S' 2>&1 | grep -q ^Inode: && debugfs -R 'stat /system/etc/init/multi_ir.rc' '$S' 2>&1 | grep -q ^Inode:"
+check "IR: libmultiirservice.so" exists "$S" /system/lib/libmultiirservice.so
+check "IR: keymap for TX6S-H remote (customer_ir_4040.kl)" exists "$S" /system/usr/keylayout/customer_ir_4040.kl
+check "IR: multi_ir SELinux label" bash -c "debugfs -R 'ea_get /system/bin/multi_ir security.selinux' '$S' 2>/dev/null | grep -q multi_ir_exec"
 echo
 
 echo "## vendor (Tanix)"

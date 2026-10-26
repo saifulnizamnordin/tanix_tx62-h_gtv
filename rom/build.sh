@@ -186,6 +186,22 @@ apply_layer() {
         done < <(find "$dir/$part" -type f ! -name 'README*' -print0)
     done
 
+    # imports.list : "<source> <part>/<path>" lines; a source of upstream:<path> is
+    # relative to the lucagoc checkout. A directory source is imported recursively.
+    if [ -f "$dir/imports.list" ]; then
+        local src dest
+        while read -r src dest; do
+            [[ -z "$src" || "$src" == \#* ]] && continue
+            [[ "$src" == upstream:* ]] && src="$UPSTREAM/${src#upstream:}" || src="$dir/$src"
+            [ -e "$src" ] || die "layer $name: import source not found: $src"
+            part="${dest%%/*}"
+            while IFS= read -r -d '' f; do
+                rel="${dest#*/}${f#"$src"}"
+                write_file "$part" "$f" "$rel" "${ctx[/$part/$rel]:-$(default_ctx "$part")}"
+            done < <(find "$src" -type f -print0)
+        done < "$dir/imports.list"
+    fi
+
     # props/<part>.prop : key=value lines merged into that partition's build.prop;
     # @VERSION@ is replaced with the build version.
     if [ -d "$dir/props" ]; then

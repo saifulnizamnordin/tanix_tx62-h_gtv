@@ -1,0 +1,2 @@
+# Type defined by the Tanix vendor sepolicy (vendor_file_contexts)
+/system/bin/multi_ir   u:object_r:multi_ir_exec:s0

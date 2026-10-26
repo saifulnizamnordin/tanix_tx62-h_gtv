@@ -1,0 +1,9 @@
+# Large binaries – see firmware/README.md
+firmware/*
+!firmware/README.md
+backup/
+*.img
+*.zip
+*.7z
+*.rar
+*.bin

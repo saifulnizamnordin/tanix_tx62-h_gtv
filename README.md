@@ -43,7 +43,7 @@ ADB over network lets you do all of this from the PC without a USB A-to-A cable.
    ```
    Commit the files in `device-info/` – they identify the board.
 3. [Choose a matching GTV ROM](docs/02-choose-rom.md)
-4. [Flash the ROM](docs/03-flash.md)
+4. [Flash the ROM](docs/03-flash.md) · custom ROM: [docs/04-flash-custom-rom.md](docs/04-flash-custom-rom.md)
 5. Re-enable ADB on the new ROM (same steps as 1) for post-install setup.
 
 Custom Android TV ROM build: [rom/](rom/README.md) · plan: [docs/custom-rom-plan.md](docs/custom-rom-plan.md)

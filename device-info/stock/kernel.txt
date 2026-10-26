@@ -1,0 +1,2 @@
+Linux localhost 4.9.170 #10 SMP PREEMPT Tue Dec 15 15:15:02 CST 2020 armv8l
+cat: /proc/cmdline: Permission denied

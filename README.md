@@ -6,6 +6,19 @@ firmware on a **Tanix TX6S-H** with a custom Google TV (GTV) ROM.
 > ⚠️ Flashing the wrong firmware can brick the box. Always confirm the SoC,
 > RAM/eMMC size and Wi-Fi chip before flashing, and back up stock first.
 
+## This unit (from `device-info/stock/`)
+
+| | |
+|---|---|
+| SoC | **Allwinner H616** (`sun50iw9p1`, platform `cupid`) – firmware falsely labels itself "Amlogic p281" |
+| RAM / eMMC | 4 GB / 64 GB |
+| Wi-Fi / BT | Broadcom SDIO `02d0:4330` → BCM4330 (AP6330), driver `bcmdhd` |
+| GPU | Mali-G31 (`mali_kbase`) |
+| Stock ROM | Android 10, 32-bit userspace (`armeabi-v7a`), `userdebug`, build 2020-12-19 |
+| ADB | Network ADB on port 5555 works on stock |
+
+Pick an **Allwinner H616** GTV ROM with Broadcom AP6330 Wi-Fi support – never an Amlogic one.
+
 ## Do I need ADB before starting?
 
 **Not strictly for flashing, but yes, do it first.**

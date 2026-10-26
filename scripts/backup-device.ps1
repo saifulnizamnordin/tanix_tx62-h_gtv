@@ -40,6 +40,7 @@ Save-Shell 'getprop.txt'    'getprop'
 Save-Shell 'cpuinfo.txt'    'cat /proc/cpuinfo'
 Save-Shell 'meminfo.txt'    'cat /proc/meminfo'
 Save-Shell 'partitions.txt' 'cat /proc/partitions; echo; ls -l /dev/block/by-name/ 2>/dev/null || ls -l /dev/block/platform/*/by-name/'
+Save-Shell 'wifi.txt'       'cat /sys/bus/sdio/devices/*/vendor /sys/bus/sdio/devices/*/device 2>/dev/null; ls /vendor/etc/firmware /vendor/modules 2>/dev/null'
 Save-Shell 'lsmod.txt'      'lsmod 2>/dev/null || cat /proc/modules'
 Save-Shell 'kernel.txt'     'uname -a; cat /proc/cmdline'
 Save-Shell 'display.txt'    'dumpsys display | head -n 60'
@@ -66,8 +67,9 @@ New-Item -ItemType Directory -Force $backupDir | Out-Null
 $byName = (adb -s $target shell "${su}'ls -d /dev/block/by-name /dev/block/platform/*/by-name 2>/dev/null'" | Select-Object -First 1).Trim()
 $parts = adb -s $target shell "${su}'ls $byName'" | ForEach-Object { $_.Trim() } | Where-Object { $_ }
 
-# userdata is huge and holds no firmware - skip it.
-foreach ($p in $parts | Where-Object { $_ -notin 'userdata', 'UDISK' }) {
+# userdata/UDISK is huge and holds no firmware; mmcblk0* are whole-disk/boot-area
+# nodes that some Allwinner builds also list under by-name - skip them.
+foreach ($p in $parts | Where-Object { $_ -notin 'userdata', 'UDISK' -and $_ -notlike 'mmcblk*' }) {
     $out = Join-Path $backupDir "$p.img"
     Write-Host "  dumping $p"
     # cmd.exe redirection keeps the raw bytes; PowerShell's '>' may re-encode them.

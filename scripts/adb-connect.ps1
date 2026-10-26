@@ -16,7 +16,11 @@ if (-not (Get-Command adb -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
-if (-not (Test-NetConnection $Ip -Port $Port -InformationLevel Quiet -WarningAction SilentlyContinue)) {
+# Quick TCP probe (Test-NetConnection is slow and leaves its progress bar on screen).
+$tcp = [System.Net.Sockets.TcpClient]::new()
+$open = $tcp.ConnectAsync($Ip, $Port).Wait(3000) -and $tcp.Connected
+$tcp.Dispose()
+if (-not $open) {
     Write-Error "$target is not reachable. Check the IP and that network/USB debugging is enabled (docs/01-enable-adb.md)."
     exit 1
 }

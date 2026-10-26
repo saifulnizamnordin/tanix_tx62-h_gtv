@@ -25,6 +25,18 @@ one.
 | TX6s Oranth H616 | 2020-10-22 | [XDA thread](https://xdaforums.com/t/allwinner-h616-tx6s.4043863/) | Same "Oranth" vendor as this unit (OTA URL `oranthservice.com`) – reported working on TX6S 4G/64G |
 | Other H616 boxes (T95, H96 Max, Transpeed H40) | 2020–2022 | androidtvbox.eu / needrom | **Different boards** – XDA reports lost Wi-Fi/BT/remote after cross-flashing. Avoid. |
 
+## XDA re-check (domain-limited searches)
+
+Still no Google TV / Android TV ROM for H616. Leads found, none usable as-is:
+
+| Thread | What it is | Why not for us |
+|---|---|---|
+| [Porting ATV 7](https://xdaforums.com/t/porting-atv-7-rom-for-t95max-and-other-allwinner-h6.4117055/) / [ATV 9 for T95Max](https://xdaforums.com/t/porting-atv-9-for-t95max-and-other-allwinner-h6-aurora-store-no-playstore.4121449/page-3) | Android TV ports | **H6** chip (older Tanix TX6), not H616; users lost Wi-Fi/BT |
+| [X98H Pro Android 12 to Android TV](https://xdaforums.com/t/x98h-pro-android-12-to-android-tv.4564729/) | "Apollo" Android 12 variant that identifies as a TV device | **H618** board, unverified; different DRAM/PMIC → brick risk |
+| [64-bit ROM for H313/H616/H618](https://xdaforums.com/t/looking-for-working-64bit-rom-for-allwinner-h313-h616-h618.4506221/) | Hunt for 64-bit images | Only H618 images found |
+| [TX6s Alice UX launcher change](https://xdaforums.com/t/tx6s-android-tv-box-alice-ux-launcher-change-help.4147925/) | Replacing the stock launcher on TX6s | Relevant to option 2 below |
+| [T95 H616 thread, p.11](https://xdaforums.com/t/t95-allwinner-h616-tv-box.4089091/page-11) | Reports of **preinstalled malware** in some H616/H618 ROMs | Scan any third-party image before use |
+
 ## Practical options
 
 1. **Upgrade to the 2023 official Tanix image** (still Android 10).

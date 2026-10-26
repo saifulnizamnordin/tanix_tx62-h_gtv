@@ -13,7 +13,7 @@ setup wizard: OK.
 | GPU Mali-G31 | ✅ | EGL `Bifrost r20p0-01rel0` |
 | HW video decode | ✅ listed | `OMX.allwinner.video.decoder.{avc,hevc,vp9,mpeg2,mpeg4,vc1,…}` |
 | Display | ✅ | 1920x1080, density 320 |
-| IR remote | ❌ → fixed in next build | kernel `sunxi-ir` emits only `MSC_SCAN` (address `4040`); stock `multi_ir` daemon + `customer_ir_4040.kl` were in the old system partition → `tx6s-ir` layer |
+| IR remote | ❌ build-4 → ✅ build-5 | kernel `sunxi-ir` emits only `MSC_SCAN` (address `4040`); stock `multi_ir` daemon + `customer_ir_4040.kl` were in the old system partition → `tx6s-ir` layer |
 | USB keyboard | ✅ | SONiX / BESCO detected |
 | HDMI audio | ⏳ test | HAL exposes `AUDIO_DEVICE_OUT_HDMI`; route shows `SPEAKER` |
 | First-boot script | ✅ | `/data/.tx6s_firstboot_done` |
@@ -27,3 +27,13 @@ setup wizard: OK.
 | Button | Up | Down | Left | Right | OK | Back | Home | Menu | Vol+ | Vol− | Power |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Code | 0x0b | 0x0e | 0x10 | 0x11 | 0x0d | 0x42 | 0x1a | 0x45 | 0x18 | 0x17 | 0x4d |
+
+## build-5 `vanilla_debug` (2026-10-26 21:23, IR fix)
+
+Flashed over build-4 with PhoenixSuit **format = No**: Wi-Fi and setup kept.
+
+| Area | Result | Evidence |
+|---|---|---|
+| `multi_ir` service | ✅ | `init.svc.multi_ir=running`, domain `u:r:multi_ir:s0` |
+| IR → Android keys | ✅ | `sunxi-ir-uinput` with `sunxi-ir-uinput.kl`; Up/Down/Left/Right/OK/Back/Home/Vol± arrive as Linux keys 19–23, 4, 3, 24, 25 = DPAD_*, BACK, HOME, VOLUME_* |
+| Data kept on reflash | ✅ | `user_setup_complete=1`, Wi-Fi reconnected |

@@ -1,0 +1,59 @@
+name: Build ROM
+
+on:
+  workflow_dispatch:
+    inputs:
+      variant:
+        description: "Variant from rom/layers/layers.conf, or 'all'"
+        required: true
+        default: vanilla_debug
+        type: choice
+        options: [vanilla_debug, vanilla, gms_core, gms_full, all]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      - name: Install tools
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y android-sdk-libsparse-utils e2fsprogs \
+            libc6:i386 libstdc++6:i386 zlib1g:i386 python3-pip
+          pip3 install --user gdown
+          # Prebuilt lpmake (same mirror lucagoc's CI uses)
+          curl -fsSL https://raw.githubusercontent.com/whyshhnuv/lpunpack-lpmake-mirror/Linux-debian/binary/lpmake -o /tmp/lpmake
+          sudo install -m 755 /tmp/lpmake /usr/local/bin/lpmake
+
+      - name: Fetch inputs
+        run: bash rom/fetch.sh
+
+      - name: Build
+        run: |
+          if [ "${{ inputs.variant }}" = all ]; then bash rom/build.sh --all
+          else bash rom/build.sh --variant "${{ inputs.variant }}"; fi
+          df -h /
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: "TX6S-H LineageOS 18.1 ATV - ${{ inputs.variant }} (build ${{ github.run_number }})"
+          prerelease: true
+          body: |
+            Untested build of `${{ inputs.variant }}` from ${{ github.sha }}.
+            Flash with PhoenixSuit (see docs/03-flash.md). Back up stock first.
+          files: |
+            rom/output/*.img
+            rom/output/*.sha256

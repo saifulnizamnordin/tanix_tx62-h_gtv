@@ -1,0 +1,2 @@
+# <path> <selinux context>; unlisted files get system_file / vendor_file
+/system/bin/tx6s_firstboot.sh   u:object_r:phhsu_exec:s0

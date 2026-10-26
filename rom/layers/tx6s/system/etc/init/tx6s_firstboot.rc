@@ -1,0 +1,10 @@
+service tx6s_firstboot /system/bin/tx6s_firstboot.sh
+    class late_start
+    user root
+    group root system
+    oneshot
+    disabled
+    seclabel u:r:phhsu_daemon:s0
+
+on property:sys.boot_completed=1
+    start tx6s_firstboot

@@ -1,0 +1,4 @@
+# Google TV launcher (upstream:overlay-gms-full) replaces the GSI's no-GMS launcher
+/system/priv-app/TVLauncherNoGMS
+/system/priv-app/TVRecommendationsNoGMS
+/system/product/priv-app/TvSampleLeanbackLauncher

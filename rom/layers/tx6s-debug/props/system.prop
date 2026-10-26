@@ -1,0 +1,5 @@
+# Debug build: ADB without authorization prompt (anyone on the LAN gets a shell!)
+ro.adb.secure=0
+service.adb.tcp.port=5555
+# Allwinner USB0 in device mode: ADB over a USB A-to-A cable on the OTG port
+persist.vendor.usb0device=1

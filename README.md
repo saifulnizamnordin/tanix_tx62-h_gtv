@@ -46,6 +46,8 @@ ADB over network lets you do all of this from the PC without a USB A-to-A cable.
 4. [Flash the ROM](docs/03-flash.md)
 5. Re-enable ADB on the new ROM (same steps as 1) for post-install setup.
 
+Custom Android TV ROM build: [rom/](rom/README.md) · plan: [docs/custom-rom-plan.md](docs/custom-rom-plan.md)
+
 ## Repo layout
 
 ```

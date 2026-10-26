@@ -1,0 +1,4 @@
+# Vendor props override system ones, so TV density lives here (stock: 240).
+ro.sf.lcd_density=320
+# 4 GB RAM unit: no low-RAM mode
+ro.config.low_ram=false

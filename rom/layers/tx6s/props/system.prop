@@ -1,0 +1,7 @@
+ro.lineage.version=@VERSION@
+ro.lineage.display.version=@VERSION@
+ro.modversion=@VERSION@
+ro.build.characteristics=tv
+# Cortex-A53 target for dex2oat
+dalvik.vm.isa.arm.variant=cortex-a53
+dalvik.vm.isa.arm.features=default

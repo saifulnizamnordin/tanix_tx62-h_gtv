@@ -1,0 +1,7 @@
+# Files copied into the Android image or run on Linux must keep LF endings
+*.sh    text eol=lf
+*.rc    text eol=lf
+*.prop  text eol=lf
+*.list  text eol=lf
+*.conf  text eol=lf
+*.yml   text eol=lf

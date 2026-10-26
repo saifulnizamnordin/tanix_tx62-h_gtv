@@ -63,17 +63,28 @@ if ((adb -s $target shell id) -notmatch 'uid=0') {
     }
 }
 
+# Wrap a device command for su only when adbd itself is not root.
+function As-Root([string] $cmd) { if ($su) { "su -c '$cmd'" } else { $cmd } }
+
+function Dump([string] $name, [string] $ddArgs) {
+    $out = Join-Path $backupDir "$name.img"
+    Write-Host "  dumping $name"
+    # cmd.exe redirection keeps the raw bytes; PowerShell's '>' may re-encode them.
+    cmd /c "adb -s $target exec-out ""$(As-Root "dd $ddArgs 2>/dev/null")"" > ""$out"""
+}
+
 New-Item -ItemType Directory -Force $backupDir | Out-Null
-$byName = (adb -s $target shell "${su}'ls -d /dev/block/by-name /dev/block/platform/*/by-name 2>/dev/null'" | Select-Object -First 1).Trim()
-$parts = adb -s $target shell "${su}'ls $byName'" | ForEach-Object { $_.Trim() } | Where-Object { $_ }
+$byName = (adb -s $target shell (As-Root 'ls -d /dev/block/by-name /dev/block/platform/*/by-name 2>/dev/null') | Select-Object -First 1).Trim()
+$parts = adb -s $target shell (As-Root "ls $byName") | ForEach-Object { $_.Trim() } | Where-Object { $_ }
+
+# Raw start of the eMMC: partition table plus Allwinner boot0 / u-boot (toc0/toc1),
+# which are not exposed as by-name partitions.
+Dump 'mmcblk0-head-40M' 'if=/dev/block/mmcblk0 bs=1M count=40'
 
 # userdata/UDISK is huge and holds no firmware; mmcblk0* are whole-disk/boot-area
 # nodes that some Allwinner builds also list under by-name - skip them.
 foreach ($p in $parts | Where-Object { $_ -notin 'userdata', 'UDISK' -and $_ -notlike 'mmcblk*' }) {
-    $out = Join-Path $backupDir "$p.img"
-    Write-Host "  dumping $p"
-    # cmd.exe redirection keeps the raw bytes; PowerShell's '>' may re-encode them.
-    cmd /c "adb -s $target exec-out ""${su}'dd if=$byName/$p bs=1M 2>/dev/null'"" > ""$out"""
+    Dump $p "if=$byName/$p bs=1M"
 }
 
 Get-ChildItem $backupDir -Filter *.img |

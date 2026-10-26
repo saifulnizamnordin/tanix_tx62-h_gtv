@@ -5,3 +5,6 @@ ro.build.characteristics=tv
 # Cortex-A53 target for dex2oat
 dalvik.vm.isa.arm.variant=cortex-a53
 dalvik.vm.isa.arm.features=default
+# The GSI ships ro.adb.secure=0 and the 2023 Tanix vendor does not set it:
+# require the ADB authorization prompt (tx6s-debug turns it off again).
+ro.adb.secure=1

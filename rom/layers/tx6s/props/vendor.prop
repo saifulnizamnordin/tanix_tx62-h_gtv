@@ -2,3 +2,5 @@
 ro.sf.lcd_density=320
 # 4 GB RAM unit: no low-RAM mode
 ro.config.low_ram=false
+# Vendor props win over system ones; keep both in sync (see system.prop)
+ro.adb.secure=1

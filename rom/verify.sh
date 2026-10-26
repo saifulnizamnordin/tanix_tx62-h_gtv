@@ -80,5 +80,16 @@ check "Broadcom Wi-Fi driver bcmdhd.ko" bash -c "debugfs -R 'ls /lib/modules' '$
 check "AP6330 firmware" bash -c "debugfs -R 'ls /etc/firmware' '$V' 2>/dev/null | grep -q -e ap6330 -e bcm40183"
 echo
 
+echo "## security"
+# vendor build.prop wins over system when both set a property
+ADB_SECURE="$(prop "$V" /build.prop ro.adb.secure)"; ADB_SECURE="${ADB_SECURE:-$(prop "$S" /system/build.prop ro.adb.secure)}"
+echo "  effective ro.adb.secure=$ADB_SECURE"
+if [[ "$(basename "$IMG")" == *debug* ]]; then
+    echo "INFO  debug build: ADB without authorization prompt"
+else
+    check "ADB requires authorization (ro.adb.secure=1)" test "$ADB_SECURE" = 1
+fi
+echo
+
 [ "$FAIL" = 0 ] && echo "RESULT: all checks passed" || echo "RESULT: SOME CHECKS FAILED - do not flash"
 } 2>&1 | tee "$REPORT"

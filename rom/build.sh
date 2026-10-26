@@ -226,8 +226,9 @@ build_variant() {
     [ -n "$layers_raw" ] || die "unknown variant '$variant' (have: ${ORDER[*]})"
     IFS=', ' read -ra layers <<< "$layers_raw"
 
-    local date_tag; date_tag="$(date +%Y%m%d)"
-    VERSION="18.1-${date_tag}-UNOFFICIAL-${DEVICE}-${variant}"
+    # Local (Malaysia) build time + CI run number keep every image name unique
+    local date_tag; date_tag="$(TZ=Asia/Kuala_Lumpur date +%Y%m%d-%H%M)"
+    VERSION="18.1-${date_tag}-UNOFFICIAL-${DEVICE}-${variant}${BUILD_NUMBER:+-build${BUILD_NUMBER}}"
     local final="$OUT/lineage-${VERSION}.img"
     P="$WORK/$variant"
     rm -rf "$P"; mkdir -p "$P" "$OUT"

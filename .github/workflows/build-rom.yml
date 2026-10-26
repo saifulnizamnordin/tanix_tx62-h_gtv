@@ -45,15 +45,27 @@ jobs:
           else bash rom/build.sh --variant "${{ inputs.variant }}"; fi
           df -h /
 
+      - name: Verify
+        run: |
+          {
+            echo "Untested on hardware: \`${{ inputs.variant }}\` from ${{ github.sha }}."
+            echo "Flash with PhoenixSuit (see docs/03-flash.md). Back up stock first."
+            echo
+          } > rom/output/RELEASE.md
+          for img in rom/output/*.img; do
+            bash rom/verify.sh "$img"
+            { echo '```'; cat "$img.report.txt"; echo '```'; } >> rom/output/RELEASE.md
+          done
+          ! grep -q 'SOME CHECKS FAILED' rom/output/*.report.txt
+
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
           name: "TX6S-H LineageOS 18.1 ATV - ${{ inputs.variant }} (build ${{ github.run_number }})"
           prerelease: true
-          body: |
-            Untested build of `${{ inputs.variant }}` from ${{ github.sha }}.
-            Flash with PhoenixSuit (see docs/03-flash.md). Back up stock first.
+          body_path: rom/output/RELEASE.md
           files: |
             rom/output/*.img
             rom/output/*.sha256
+            rom/output/*.report.txt

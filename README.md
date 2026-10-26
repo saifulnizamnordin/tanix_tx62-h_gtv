@@ -18,6 +18,7 @@ firmware on a **Tanix TX6S-H** with a custom Google TV (GTV) ROM.
 | ADB | Network ADB on port 5555 works on stock |
 
 Pick an **Allwinner H616** GTV ROM with Broadcom AP6330 Wi-Fi support – never an Amlogic one.
+As of 2026-10 no such Google TV ROM exists – see [docs/rom-search.md](docs/rom-search.md).
 
 ## Do I need ADB before starting?
 

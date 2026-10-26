@@ -7,7 +7,8 @@ them to a GitHub Release.)
 
 | File | Type | Version | Source URL | SHA256 |
 |---|---|---|---|---|
-| _stock_ |  |  |  |  |
+| _stock (on device)_ | Android 10 | 2020-12-19 Oranth | OTA `http://www.oranthservice.com:81/TX6s_Oranth/update` |  |
+| _official latest_ | `.img` | 2023-04-26 | [Tanix Google Drive](https://drive.google.com/drive/folders/1g834P9UZaf7YTlzWwfgjb7jhlyZzQ29O) |  |
 | _custom GTV_ |  |  |  |  |
 
 Get the checksum with:
